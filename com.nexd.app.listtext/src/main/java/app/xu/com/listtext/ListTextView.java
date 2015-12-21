@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,18 +77,18 @@ public class ListTextView extends RelativeLayout implements AdapterView.OnItemCl
         this.context = context;
         listView = new ListView(context);
         invalidate();
-        header = LayoutInflater.from(context).inflate(R.layout.head_view, null);
-        listView.addHeaderView(header, null, false);
-        footer = LayoutInflater.from(context).inflate(R.layout.footer_view, null);
-        listView.addFooterView(footer, null, false);
         listTextAdapter = new ListTextAdapter();
+        header = new HeadListTextView(context);
+        footer = new FooterListTextView(context);
+        listView.addFooterView(footer, null, false);
+        listView.addHeaderView(header, null, false);
         listView.setOnItemClickListener(this);
         listView.setAdapter(listTextAdapter);
         listView.setDivider(null);
         listView.setVerticalScrollBarEnabled(false);
         listView.setHeaderDividersEnabled(true);
-        setLayoutParam();
         listView.setFooterDividersEnabled(true);
+        setLayoutParam();
         this.addView(listView);
     }
 
@@ -96,9 +97,9 @@ public class ListTextView extends RelativeLayout implements AdapterView.OnItemCl
         this.context = context;
         invalidate();
         listView = new ListView(context, attributes);
-        header = LayoutInflater.from(context).inflate(R.layout.head_view, null);
+        header = new HeadListTextView(context);
         listView.addHeaderView(header, null, false);
-        footer = LayoutInflater.from(context).inflate(R.layout.footer_view, null);
+        footer = new FooterListTextView(context);
         listView.addFooterView(footer, null, false);
         listTextAdapter = new ListTextAdapter();
         listView.setOnItemClickListener(this);
@@ -114,9 +115,9 @@ public class ListTextView extends RelativeLayout implements AdapterView.OnItemCl
         this.context = context;
         listView = new ListView(context, attrs, defStyleAttr);
         invalidate();
-        header = LayoutInflater.from(context).inflate(R.layout.head_view, null);
+        header = new HeadListTextView(context);
         listView.addHeaderView(header, null, false);
-        footer = LayoutInflater.from(context).inflate(R.layout.footer_view, null);
+        footer = new FooterListTextView(context);
         listView.addFooterView(footer, null, false);
         listTextAdapter = new ListTextAdapter();
         listView.setOnItemClickListener(this);
@@ -126,24 +127,24 @@ public class ListTextView extends RelativeLayout implements AdapterView.OnItemCl
         listView.setVerticalScrollBarEnabled(false);
         this.addView(listView);
     }
-
-    public ListTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        this.context = context;
-        invalidate();
-        listView = new ListView(context, attrs, defStyleAttr, defStyleRes);
-        header = LayoutInflater.from(context).inflate(R.layout.head_view, null);
-        listView.addHeaderView(header, null, false);
-        footer = LayoutInflater.from(context).inflate(R.layout.footer_view, null);
-        listView.addFooterView(footer, null, false);
-        listTextAdapter = new ListTextAdapter();
-        listView.setOnItemClickListener(this);
-        listView.setAdapter(listTextAdapter);
-        listView.setDivider(null);
-        setLayoutParam();
-        listView.setVerticalScrollBarEnabled(false);
-        this.addView(listView);
-    }
+//
+//    public ListTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+//        super(context, attrs, defStyleAttr, defStyleRes);
+//        this.context = context;
+//        invalidate();
+//        listView = new ListView(context, attrs, defStyleAttr, defStyleRes);
+//        header = new HeadListTextView(context);
+//        listView.addHeaderView(header, null, false);
+//        footer = new FooterListTextView(context);
+//        listView.addFooterView(footer, null, false);
+//        listTextAdapter = new ListTextAdapter();
+//        listView.setOnItemClickListener(this);
+//        listView.setAdapter(listTextAdapter);
+//        listView.setDivider(null);
+//        setLayoutParam();
+//        listView.setVerticalScrollBarEnabled(false);
+//        this.addView(listView);
+//    }
 
     /**
      * to set the default selected position
@@ -255,8 +256,10 @@ public class ListTextView extends RelativeLayout implements AdapterView.OnItemCl
             ViewHolder holder;
             if (convertView == null) {
                 holder = new ViewHolder();
-                convertView = LayoutInflater.from(context).inflate(R.layout.list_text_item, null);
-                holder.itemText = (TextView) convertView.findViewById(R.id.list_text_id);
+                convertView = LayoutInflater.from(context).inflate(android.R.layout.test_list_item, null);
+                holder.itemText = (TextView) convertView.findViewById(android.R.id.text1);
+                holder.itemText.setGravity(Gravity.CENTER);
+                holder.itemText.setSingleLine();
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();

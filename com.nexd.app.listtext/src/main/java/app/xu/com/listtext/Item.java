@@ -37,10 +37,6 @@ public class Item implements Parcelable {
         return itemName;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
     public boolean isSelected() {
         return isSelected;
     }

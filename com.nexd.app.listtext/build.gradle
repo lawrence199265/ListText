@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -23,7 +23,7 @@ task makeJar(type: Copy) {
     from('build/intermediates/bundles/release/')
     into('release/')
     include('classes.jar')
-    rename('classes.jar', 'list_text_v1.0.1_build_201512081534.jar')
+    rename('classes.jar', 'list_text_v1.0.1_build_201512211324.jar')
 }
 
 dependencies {
