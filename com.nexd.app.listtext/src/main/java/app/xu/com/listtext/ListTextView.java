@@ -21,18 +21,23 @@ import java.util.List;
  * show item`s content
  * Created by xu on 2015/12/5.
  */
-public class ListTextView extends ListView implements AdapterView.OnItemClickListener {
+public class ListTextView extends RelativeLayout implements AdapterView.OnItemClickListener {
 
     /**
      * The default selected position
      */
     public static final int DEFAULT_SELECTED_ITEM = 0;
 
+    /**
+     * to show the list item
+     */
+    private ListView listView;
+
     private Context context;
 
     /**
      * Item`s click event
-     * <p>
+     * <p/>
      * When the item is clicked, to callback the click position and item`s data
      */
     private OnTextItemClickListener onTextItemClickListener;
@@ -69,70 +74,82 @@ public class ListTextView extends ListView implements AdapterView.OnItemClickLis
     public ListTextView(Context context) {
         super(context);
         this.context = context;
+        listView = new ListView(context);
         invalidate();
         header = LayoutInflater.from(context).inflate(R.layout.head_view, null);
-        addHeaderView(header, null, false);
+        listView.addHeaderView(header, null, false);
         footer = LayoutInflater.from(context).inflate(R.layout.footer_view, null);
-        addFooterView(footer, null, false);
+        listView.addFooterView(footer, null, false);
         listTextAdapter = new ListTextAdapter();
-        setOnItemClickListener(this);
-        setAdapter(listTextAdapter);
-        setDivider(null);
-        setVerticalScrollBarEnabled(false);
-        setHeaderDividersEnabled(true);
-        setFooterDividersEnabled(true);
+        listView.setOnItemClickListener(this);
+        listView.setAdapter(listTextAdapter);
+        listView.setDivider(null);
+        listView.setVerticalScrollBarEnabled(false);
+        listView.setHeaderDividersEnabled(true);
+        setLayoutParam();
+        listView.setFooterDividersEnabled(true);
+        this.addView(listView);
     }
 
     public ListTextView(Context context, AttributeSet attributes) {
         super(context, attributes);
         this.context = context;
         invalidate();
+        listView = new ListView(context, attributes);
         header = LayoutInflater.from(context).inflate(R.layout.head_view, null);
-        addHeaderView(header, null, false);
+        listView.addHeaderView(header, null, false);
         footer = LayoutInflater.from(context).inflate(R.layout.footer_view, null);
-        addFooterView(footer, null, false);
+        listView.addFooterView(footer, null, false);
         listTextAdapter = new ListTextAdapter();
-        setOnItemClickListener(this);
-        setAdapter(listTextAdapter);
-        setDivider(null);
-        setVerticalScrollBarEnabled(false);
+        listView.setOnItemClickListener(this);
+        listView.setAdapter(listTextAdapter);
+        listView.setDivider(null);
+        setLayoutParam();
+        listView.setVerticalScrollBarEnabled(false);
+        this.addView(listView);
     }
 
     public ListTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
+        listView = new ListView(context, attrs, defStyleAttr);
         invalidate();
         header = LayoutInflater.from(context).inflate(R.layout.head_view, null);
-        addHeaderView(header, null, false);
+        listView.addHeaderView(header, null, false);
         footer = LayoutInflater.from(context).inflate(R.layout.footer_view, null);
-        addFooterView(footer, null, false);
+        listView.addFooterView(footer, null, false);
         listTextAdapter = new ListTextAdapter();
-        setOnItemClickListener(this);
-        setAdapter(listTextAdapter);
-        setDivider(null);
-        setVerticalScrollBarEnabled(false);
+        listView.setOnItemClickListener(this);
+        listView.setAdapter(listTextAdapter);
+        listView.setDivider(null);
+        setLayoutParam();
+        listView.setVerticalScrollBarEnabled(false);
+        this.addView(listView);
     }
 
     public ListTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         this.context = context;
         invalidate();
+        listView = new ListView(context, attrs, defStyleAttr, defStyleRes);
         header = LayoutInflater.from(context).inflate(R.layout.head_view, null);
-        addHeaderView(header, null, false);
+        listView.addHeaderView(header, null, false);
         footer = LayoutInflater.from(context).inflate(R.layout.footer_view, null);
-        addFooterView(footer, null, false);
+        listView.addFooterView(footer, null, false);
         listTextAdapter = new ListTextAdapter();
-        setOnItemClickListener(this);
-        setAdapter(listTextAdapter);
-        setDivider(null);
-        setVerticalScrollBarEnabled(false);
+        listView.setOnItemClickListener(this);
+        listView.setAdapter(listTextAdapter);
+        listView.setDivider(null);
+        setLayoutParam();
+        listView.setVerticalScrollBarEnabled(false);
+        this.addView(listView);
     }
 
     /**
      * to set the default selected position
-     * <p>
+     * <p/>
      * set the position to ListView that show the selected view
-     * <p>
+     * <p/>
      *
      * @param which position
      */
@@ -143,7 +160,7 @@ public class ListTextView extends ListView implements AdapterView.OnItemClickLis
             items.get(which).setIsSelected(true);
             lastPosition = which;
             listTextAdapter.notifyDataSetChanged();
-            smoothScrollToPosition(which);
+            listView.smoothScrollToPosition(which);
         }
     }
 
@@ -162,7 +179,7 @@ public class ListTextView extends ListView implements AdapterView.OnItemClickLis
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 34, getResources().getDisplayMetrics()),
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_LAYOUT_HEIGHT, getResources().getDisplayMetrics()));
-        setLayoutParams(params);
+        listView.setLayoutParams(params);
     }
 
     /**
