@@ -1,4 +1,4 @@
-package app.xu.com.listtext;
+package app.xu.com.listtext.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -61,12 +61,13 @@ public class HeadListTextView extends RootListTextView {
                 (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics())),
                 (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics())),
                 (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, getResources().getDisplayMetrics())), paint);
-
-//        canvas.drawLine(
-//                (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, getResources().getDisplayMetrics())),
-//                (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_LAYOUT_HEIGHT, getResources().getDisplayMetrics())),
-//                (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_LAYOUT_WIDTH, getResources().getDisplayMetrics())),
-//                (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_LAYOUT_HEIGHT, getResources().getDisplayMetrics())), paint);
+        if (isShowDividingLine) {
+            canvas.drawLine(
+                    (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, getResources().getDisplayMetrics())),
+                    (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_LAYOUT_HEIGHT, getResources().getDisplayMetrics())),
+                    (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_LAYOUT_WIDTH, getResources().getDisplayMetrics())),
+                    (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_LAYOUT_HEIGHT, getResources().getDisplayMetrics())), paint);
+        }
         canvas.restore();
     }
 }

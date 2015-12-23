@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="listbutton.xu.com.listbutton.MainActivity">
 
-    <app.xu.com.listtext.ListTextView
+    <app.xu.com.listtext.view.ListTextView
         android:id="@+id/listText"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />

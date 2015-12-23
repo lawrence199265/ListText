@@ -1,4 +1,4 @@
-package app.xu.com.listtext;
+package app.xu.com.listtext.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -13,6 +13,7 @@ public abstract class RootListTextView extends View {
 
     public static final int DEFAULT_LAYOUT_HEIGHT = 20;
 
+    protected static boolean isShowDividingLine = false;
 
     public RootListTextView(Context context) {
         super(context);

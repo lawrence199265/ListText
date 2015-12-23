@@ -1,4 +1,4 @@
-package app.xu.com.listtext;
+package app.xu.com.listtext.mode;
 
 import android.os.Parcel;
 import android.os.Parcelable;

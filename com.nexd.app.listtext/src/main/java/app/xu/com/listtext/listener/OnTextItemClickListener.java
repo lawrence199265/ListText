@@ -1,4 +1,4 @@
-package app.xu.com.listtext;
+package app.xu.com.listtext.listener;
 
 /**
  * Created by xu on 2015/12/5.

@@ -5,7 +5,7 @@
 ### xml init
 
 ``` xml
-  <app.xu.com.listtext.ListTextView
+  <app.xu.com.listtext.view.ListTextView
         android:id="@+id/list_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

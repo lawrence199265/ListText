@@ -1,4 +1,4 @@
-package app.xu.com.listtext;
+package app.xu.com.listtext.view;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -17,6 +17,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import app.xu.com.listtext.mode.Item;
+import app.xu.com.listtext.listener.OnTextItemClickListener;
 
 /**
  * show item`s content
@@ -62,13 +65,13 @@ public class ListTextView extends RelativeLayout implements AdapterView.OnItemCl
      * The header is the ListView Head View
      * to show and remind user to scroll listview
      */
-    private HeadListTextView header;
+    private RootListTextView header;
 
     /**
      * The footer is the ListView Foot View
      * to show and remind user to scroll listview
      */
-    private FooterListTextView footer;
+    private RootListTextView footer;
 
     private Integer DEFAULT_LAYOUT_HEIGHT = 200;
 
@@ -187,6 +190,17 @@ public class ListTextView extends RelativeLayout implements AdapterView.OnItemCl
             }
             listTextAdapter.notifyDataSetChanged();
         }
+    }
+
+    /**
+     * set the header and footer to show the dividing line
+     * <p/>
+     * default false what do not show the dividing line
+     *
+     * @param isShowDividingLine
+     */
+    public void isShowDividingLine(boolean isShowDividingLine) {
+        RootListTextView.isShowDividingLine = isShowDividingLine;
     }
 
     /**
