@@ -62,15 +62,17 @@ public class ListTextView extends RelativeLayout implements AdapterView.OnItemCl
      * The header is the ListView Head View
      * to show and remind user to scroll listview
      */
-    private View header;
+    private HeadListTextView header;
 
     /**
      * The footer is the ListView Foot View
      * to show and remind user to scroll listview
      */
-    private View footer;
+    private FooterListTextView footer;
 
     private Integer DEFAULT_LAYOUT_HEIGHT = 200;
+
+    private int DEFAULE_LAYOUT_WIDTH = 34; // default layout width is 34 dip
 
     public ListTextView(Context context) {
         super(context);
@@ -105,8 +107,8 @@ public class ListTextView extends RelativeLayout implements AdapterView.OnItemCl
         listView.setOnItemClickListener(this);
         listView.setAdapter(listTextAdapter);
         listView.setDivider(null);
-        setLayoutParam();
         listView.setVerticalScrollBarEnabled(false);
+        setLayoutParam();
         this.addView(listView);
     }
 
@@ -123,28 +125,10 @@ public class ListTextView extends RelativeLayout implements AdapterView.OnItemCl
         listView.setOnItemClickListener(this);
         listView.setAdapter(listTextAdapter);
         listView.setDivider(null);
-        setLayoutParam();
         listView.setVerticalScrollBarEnabled(false);
+        setLayoutParam();
         this.addView(listView);
     }
-//
-//    public ListTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-//        super(context, attrs, defStyleAttr, defStyleRes);
-//        this.context = context;
-//        invalidate();
-//        listView = new ListView(context, attrs, defStyleAttr, defStyleRes);
-//        header = new HeadListTextView(context);
-//        listView.addHeaderView(header, null, false);
-//        footer = new FooterListTextView(context);
-//        listView.addFooterView(footer, null, false);
-//        listTextAdapter = new ListTextAdapter();
-//        listView.setOnItemClickListener(this);
-//        listView.setAdapter(listTextAdapter);
-//        listView.setDivider(null);
-//        setLayoutParam();
-//        listView.setVerticalScrollBarEnabled(false);
-//        this.addView(listView);
-//    }
 
     /**
      * to set the default selected position
@@ -178,7 +162,7 @@ public class ListTextView extends RelativeLayout implements AdapterView.OnItemCl
     // set the layout height , height default 200dp
     private void setLayoutParam() {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 34, getResources().getDisplayMetrics()),
+                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULE_LAYOUT_WIDTH, getResources().getDisplayMetrics()),
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_LAYOUT_HEIGHT, getResources().getDisplayMetrics()));
         listView.setLayoutParams(params);
     }
