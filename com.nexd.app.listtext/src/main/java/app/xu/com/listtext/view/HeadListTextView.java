@@ -50,6 +50,7 @@ public class HeadListTextView extends RootListTextView {
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
         paint.setStrokeWidth(10);
+        canvas.drawARGB(228, 228, 228, 228);
         canvas.drawLine(
                 (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics())),
                 (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, getResources().getDisplayMetrics())),

@@ -2,6 +2,7 @@ package app.xu.com.listtext.view;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -11,21 +12,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import app.xu.com.listtext.mode.Item;
 import app.xu.com.listtext.listener.OnTextItemClickListener;
+import app.xu.com.listtext.mode.Item;
 
 /**
  * show item`s content
  * Created by xu on 2015/12/5.
  */
-public class ListTextView extends RelativeLayout implements AdapterView.OnItemClickListener {
+public class ListTextView extends LinearLayout implements AdapterView.OnItemClickListener {
+
+    private static final String ANDROID_NAMESPACE = "http://schemas.android.com/apk/res/android";
 
     /**
      * The default selected position
@@ -75,7 +78,11 @@ public class ListTextView extends RelativeLayout implements AdapterView.OnItemCl
 
     private Integer DEFAULT_LAYOUT_HEIGHT = 200;
 
-    private int DEFAULE_LAYOUT_WIDTH = 34; // default layout width is 34 dip
+    private Integer DEFAULE_LAYOUT_WIDTH = 34; // default layout width is 34 dip
+
+    private float xml_height = 0;
+
+    private float xml_width = 0;
 
     public ListTextView(Context context) {
         super(context);
@@ -85,8 +92,6 @@ public class ListTextView extends RelativeLayout implements AdapterView.OnItemCl
         listTextAdapter = new ListTextAdapter();
         header = new HeadListTextView(context);
         footer = new FooterListTextView(context);
-        listView.addFooterView(footer, null, false);
-        listView.addHeaderView(header, null, false);
         listView.setOnItemClickListener(this);
         listView.setAdapter(listTextAdapter);
         listView.setDivider(null);
@@ -94,25 +99,47 @@ public class ListTextView extends RelativeLayout implements AdapterView.OnItemCl
         listView.setHeaderDividersEnabled(true);
         listView.setFooterDividersEnabled(true);
         setLayoutParam();
+        this.addView(header);
         this.addView(listView);
+        this.addView(footer);
+        this.setOrientation(VERTICAL);
     }
 
     public ListTextView(Context context, AttributeSet attributes) {
         super(context, attributes);
+//        init();
+        String h = attributes.getAttributeValue(ANDROID_NAMESPACE, "layout_height");
+        String w = attributes.getAttributeValue(ANDROID_NAMESPACE, "layout_width");
+
+
+        if (!TextUtils.isEmpty(h)) {
+            if (h.contains("dip")) {
+                h = h.substring(0, h.lastIndexOf("d"));
+            }
+            xml_height = Float.parseFloat(h);
+        }
+
+        if (!TextUtils.isEmpty(w)) {
+            if (w.contains("dip")) {
+                w = w.substring(0, w.lastIndexOf("d"));
+            }
+            xml_width = Float.parseFloat(w);
+        }
         this.context = context;
         invalidate();
         listView = new ListView(context, attributes);
         header = new HeadListTextView(context);
-        listView.addHeaderView(header, null, false);
         footer = new FooterListTextView(context);
-        listView.addFooterView(footer, null, false);
         listTextAdapter = new ListTextAdapter();
         listView.setOnItemClickListener(this);
         listView.setAdapter(listTextAdapter);
         listView.setDivider(null);
         listView.setVerticalScrollBarEnabled(false);
         setLayoutParam();
+        this.addView(header);
         this.addView(listView);
+        this.addView(footer);
+        this.setOrientation(VERTICAL);
     }
 
     public ListTextView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -121,16 +148,17 @@ public class ListTextView extends RelativeLayout implements AdapterView.OnItemCl
         listView = new ListView(context, attrs, defStyleAttr);
         invalidate();
         header = new HeadListTextView(context);
-        listView.addHeaderView(header, null, false);
         footer = new FooterListTextView(context);
-        listView.addFooterView(footer, null, false);
         listTextAdapter = new ListTextAdapter();
         listView.setOnItemClickListener(this);
         listView.setAdapter(listTextAdapter);
         listView.setDivider(null);
         listView.setVerticalScrollBarEnabled(false);
         setLayoutParam();
+        this.addView(header);
         this.addView(listView);
+        this.addView(footer);
+        this.setOrientation(VERTICAL);
     }
 
     /**
@@ -154,17 +182,30 @@ public class ListTextView extends RelativeLayout implements AdapterView.OnItemCl
 
     /**
      * set the layout height , width default 34dp
-     *
-     * @param height 高度，单位 dp
      */
-    public void setHeight(int height) {
-        this.DEFAULT_LAYOUT_HEIGHT = height;
+    private void setHeight() {
+//        if (xml_width == -1 || xml_width < DEFAULE_LAYOUT_WIDTH) { // 填充父类
+////            DEFAULE_LAYOUT_WIDTH =
+//        } else if (xml_width == -2) { // 文本自适应
+//
+//        } else if (xml_width < DEFAULE_LAYOUT_WIDTH) {
+//
+//        }
+
+        // xml_height == -1 || xml_height == -2 ||
+        if (xml_height < 50) { // 填充父类，或者是设定高度小于50时，或者自适应时， 设置默认高度为50dp
+            DEFAULT_LAYOUT_HEIGHT = 50;
+        } else if (items.size() * 25 < xml_height && items.size() * 25 <= DEFAULT_LAYOUT_HEIGHT) {
+            DEFAULT_LAYOUT_HEIGHT = items.size() * 25;
+        } else if (xml_height < items.size() * 25) {
+            DEFAULT_LAYOUT_HEIGHT = (int) (xml_height - 40);
+        }
         setLayoutParam();
     }
 
     // set the layout height , height default 200dp
     private void setLayoutParam() {
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULE_LAYOUT_WIDTH, getResources().getDisplayMetrics()),
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_LAYOUT_HEIGHT, getResources().getDisplayMetrics()));
         listView.setLayoutParams(params);
@@ -190,6 +231,7 @@ public class ListTextView extends RelativeLayout implements AdapterView.OnItemCl
             }
             listTextAdapter.notifyDataSetChanged();
         }
+        setHeight();
     }
 
     /**
@@ -214,16 +256,16 @@ public class ListTextView extends RelativeLayout implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if ((position - 1) != lastPosition) {
-            updateSelectedStatu(position - 1, lastPosition);
-            lastPosition = position - 1;
+        if ((position) != lastPosition) {
+            updateSelectedStatu(position, lastPosition);
+            lastPosition = position;
             listTextAdapter.notifyDataSetChanged();
         } else {
             Log.d("OnItemClick", "Repeat Click The Same Item");
             return;
         }
         if (onTextItemClickListener != null) {
-            onTextItemClickListener.onItemClickListener(position - 1, listTextAdapter.getItem(position - 1).getItemName());
+            onTextItemClickListener.onItemClickListener(position, listTextAdapter.getItem(position).getItemName());
         }
     }
 
@@ -256,6 +298,7 @@ public class ListTextView extends RelativeLayout implements AdapterView.OnItemCl
                 holder = new ViewHolder();
                 convertView = LayoutInflater.from(context).inflate(android.R.layout.test_list_item, null);
                 holder.itemText = (TextView) convertView.findViewById(android.R.id.text1);
+                holder.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
                 holder.itemText.setGravity(Gravity.CENTER);
                 holder.itemText.setSingleLine();
                 convertView.setTag(holder);

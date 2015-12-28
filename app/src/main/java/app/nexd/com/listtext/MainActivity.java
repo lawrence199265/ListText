@@ -20,11 +20,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         listTextView = (ListTextView) findViewById(R.id.listText);
         List<String> items = new ArrayList<>();
-        for (int i = 1; i <= 30; i++) {
+        for (int i = 1; i <= 10; i++) {
             items.add(String.valueOf(i));
         }
-        listTextView.isShowDividingLine(true);
-        listTextView.setHeight(300);
+//        listTextView.isShowDividingLine(true);
+//        listTextView.setHeight(300);
         listTextView.setItems(items);
         listTextView.setSelection(ListTextView.DEFAULT_SELECTED_ITEM);
         listTextView.setOnTextItemClickListener(new OnTextItemClickListener() {
