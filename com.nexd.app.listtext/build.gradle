@@ -23,7 +23,7 @@ task makeJar(type: Copy) {
     from('build/intermediates/bundles/release/')
     into('release/')
     include('classes.jar')
-    rename('classes.jar', 'list_text_v1.0.1_build_201512231500.jar')
+    rename('classes.jar', 'list_text_v1.0.1_build_201512301312.jar')
 }
 
 dependencies {

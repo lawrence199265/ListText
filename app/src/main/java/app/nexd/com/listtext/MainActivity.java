@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         listTextView = (ListTextView) findViewById(R.id.listText);
         List<String> items = new ArrayList<>();
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 15; i++) {
             items.add(String.valueOf(i));
         }
 //        listTextView.isShowDividingLine(true);

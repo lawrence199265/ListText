@@ -193,13 +193,45 @@ public class ListTextView extends LinearLayout implements AdapterView.OnItemClic
 //        }
 
         // xml_height == -1 || xml_height == -2 ||
-        if (xml_height < 50) { // 填充父类，或者是设定高度小于50时，或者自适应时， 设置默认高度为50dp
-            DEFAULT_LAYOUT_HEIGHT = 50;
-        } else if (items.size() * 25 < xml_height && items.size() * 25 <= DEFAULT_LAYOUT_HEIGHT) {
-            DEFAULT_LAYOUT_HEIGHT = items.size() * 25;
-        } else if (xml_height < items.size() * 25) {
-            DEFAULT_LAYOUT_HEIGHT = (int) (xml_height - 40);
+//
+//        if (xml_height == -1 || xml_height == -2) {
+//
+//        } else if (xml_height <= 50 && (xml_height != -1 || xml_height != -2)) {
+//            DEFAULT_LAYOUT_HEIGHT = 50;
+//        } else if (xml_height > 50 && xml_height <= DEFAULT_LAYOUT_HEIGHT) {
+//            DEFAULT_LAYOUT_HEIGHT = (int) xml_height;
+//        } else if (xml_height > 200) {
+//            DEFAULT_LAYOUT_HEIGHT = 200;
+//        }
+
+
+        int itemHeight = items.size() * 25;
+
+//
+//        //  判断当不为自适应或填充父类时,并且设置的高度不高于默认值,且大于最小值时,设置当前高度为设定高度
+//        if (!(xml_height == -1 || xml_height == -2 || xml_height >= DEFAULT_LAYOUT_HEIGHT || xml_height <= 50) && itemHeight >= xml_height) {
+//            DEFAULT_LAYOUT_HEIGHT = (int) xml_height;
+//        } else if (xml_height >= 0 && xml_height < 50 && itemHeight >= xml_height) { // 当设定的高度小于50时, 设置当前值为最小值
+//            // 当设定数值大于200时, 设定为最大值200
+//            DEFAULT_LAYOUT_HEIGHT = 100;
+//        } else if ((itemHeight < xml_height) && !(xml_height == -1 || xml_height == -2)) {
+//            DEFAULT_LAYOUT_HEIGHT = itemHeight;
+//        } else {
+//            DEFAULT_LAYOUT_HEIGHT = (int) xml_height /*- 40*/;
+//        }
+
+        if (itemHeight < DEFAULT_LAYOUT_HEIGHT) {
+            DEFAULT_LAYOUT_HEIGHT = itemHeight;
         }
+
+
+//        if (xml_height < 50) { // 填充父类，或者是设定高度小于50时，或者自适应时， 设置默认高度为50dp
+//            DEFAULT_LAYOUT_HEIGHT = 50;
+//        } else if (items.size() * 25 < xml_height && items.size() * 25 <= DEFAULT_LAYOUT_HEIGHT) {
+//            DEFAULT_LAYOUT_HEIGHT = items.size() * 25;
+//        } else if (xml_height < items.size() * 25) {
+//            DEFAULT_LAYOUT_HEIGHT = (int) (xml_height - 40);
+//        }
         setLayoutParam();
     }
 
