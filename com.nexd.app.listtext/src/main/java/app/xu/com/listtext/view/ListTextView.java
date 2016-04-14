@@ -35,6 +35,10 @@ public class ListTextView extends LinearLayout implements AdapterView.OnItemClic
      */
     public static final int DEFAULT_SELECTED_ITEM = 0;
 
+    private static int ITEM_SELECTED_COLOR = 0;
+
+    private static int ITEM_UNSELECTED_COLOR = 0;
+
     /**
      * to show the list item
      */
@@ -289,7 +293,7 @@ public class ListTextView extends LinearLayout implements AdapterView.OnItemClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if ((position) != lastPosition) {
-            updateSelectedStatu(position, lastPosition);
+            updateSelectedState(position, lastPosition);
             lastPosition = position;
             listTextAdapter.notifyDataSetChanged();
         } else {
@@ -302,7 +306,7 @@ public class ListTextView extends LinearLayout implements AdapterView.OnItemClic
     }
 
 
-    private void updateSelectedStatu(int currentPosition, int lastPosition) {
+    private void updateSelectedState(int currentPosition, int lastPosition) {
         items.get(currentPosition).setIsSelected(true);
         items.get(lastPosition).setIsSelected(false);
     }
@@ -348,16 +352,52 @@ public class ListTextView extends LinearLayout implements AdapterView.OnItemClic
         }
     }
 
+    /**
+     * set the item selected background color`s resource id
+     *
+     * @param resId the color id
+     */
+    public void setItemSelectedColor(int resId) {
+        ITEM_SELECTED_COLOR = resId;
+    }
+
+    /**
+     * set the item selected background color with String
+     *
+     * @param color the color of String
+     */
+    public void setItemSelectedColor(String color) {
+        ITEM_SELECTED_COLOR = Color.parseColor(color);
+    }
+
+    /**
+     * set the item unselected background color`s resource id
+     *
+     * @param resId the color id
+     */
+    public void setItemUnselectedColor(int resId) {
+        ITEM_UNSELECTED_COLOR = resId;
+    }
+
+    /**
+     * set the item unselected background color with String
+     *
+     * @param color the color of String
+     */
+    public void setItemUnselectedColor(String color) {
+        ITEM_UNSELECTED_COLOR = Color.parseColor(color);
+    }
+
     // selected style
     private void setSelectedStyle(TextView itemText) {
         itemText.setTextColor(Color.parseColor("#ffffff"));
-        itemText.setBackgroundColor(Color.parseColor("#0000ff"));
+        itemText.setBackgroundColor(context.getResources().getColor(ITEM_SELECTED_COLOR));
     }
 
     // unselected style
     private void setUnSelectedStyle(TextView itemText) {
         itemText.setTextColor(Color.parseColor("#000000"));
-        itemText.setBackgroundColor(Color.parseColor("#ffffff"));
+        itemText.setBackgroundColor(context.getResources().getColor(ITEM_UNSELECTED_COLOR));
     }
 
     private static class ViewHolder {
