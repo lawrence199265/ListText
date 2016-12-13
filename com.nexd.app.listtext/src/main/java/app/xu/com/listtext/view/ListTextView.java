@@ -19,6 +19,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.xu.com.listtext.R;
 import app.xu.com.listtext.listener.OnTextItemClickListener;
 import app.xu.com.listtext.mode.Item;
 
@@ -35,9 +36,9 @@ public class ListTextView extends LinearLayout implements AdapterView.OnItemClic
      */
     public static final int DEFAULT_SELECTED_ITEM = 0;
 
-    private static int ITEM_SELECTED_COLOR = 0;
+    private static int ITEM_SELECTED_COLOR = R.color.item__selected_color;
 
-    private static int ITEM_UNSELECTED_COLOR = 0;
+    private static int ITEM_UNSELECTED_COLOR = R.color.item_unselected_color;
 
     /**
      * to show the list item
@@ -82,7 +83,7 @@ public class ListTextView extends LinearLayout implements AdapterView.OnItemClic
 
     private Integer DEFAULT_LAYOUT_HEIGHT = 200;
 
-    private Integer DEFAULE_LAYOUT_WIDTH = 34; // default layout width is 34 dip
+    private Integer DEFAULT_LAYOUT_WIDTH = 34; // default layout width is 34 dip
 
     private float xml_height = 0;
 
@@ -177,7 +178,8 @@ public class ListTextView extends LinearLayout implements AdapterView.OnItemClic
         if (which > items.size()) {
             throw new ArrayIndexOutOfBoundsException("the index is out of items size");
         } else {
-            items.get(which).setIsSelected(true);
+            updateSelectedState(which, lastPosition);
+//            items.get(which).setIsSelected(true);
             lastPosition = which;
             listTextAdapter.notifyDataSetChanged();
             listView.smoothScrollToPosition(which);
@@ -188,11 +190,11 @@ public class ListTextView extends LinearLayout implements AdapterView.OnItemClic
      * set the layout height , width default 34dp
      */
     private void setHeight() {
-//        if (xml_width == -1 || xml_width < DEFAULE_LAYOUT_WIDTH) { // 填充父类
-////            DEFAULE_LAYOUT_WIDTH =
+//        if (xml_width == -1 || xml_width < DEFAULT_LAYOUT_WIDTH) { // 填充父类
+////            DEFAULT_LAYOUT_WIDTH =
 //        } else if (xml_width == -2) { // 文本自适应
 //
-//        } else if (xml_width < DEFAULE_LAYOUT_WIDTH) {
+//        } else if (xml_width < DEFAULT_LAYOUT_WIDTH) {
 //
 //        }
 
@@ -242,7 +244,7 @@ public class ListTextView extends LinearLayout implements AdapterView.OnItemClic
     // set the layout height , height default 200dp
     private void setLayoutParam() {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULE_LAYOUT_WIDTH, getResources().getDisplayMetrics()),
+                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_LAYOUT_WIDTH, getResources().getDisplayMetrics()),
                 (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_LAYOUT_HEIGHT, getResources().getDisplayMetrics()));
         listView.setLayoutParams(params);
     }
@@ -268,6 +270,10 @@ public class ListTextView extends LinearLayout implements AdapterView.OnItemClic
             listTextAdapter.notifyDataSetChanged();
         }
         setHeight();
+
+        setClickable(true);
+
+        setSelection(DEFAULT_SELECTED_ITEM);
     }
 
     /**
@@ -292,6 +298,10 @@ public class ListTextView extends LinearLayout implements AdapterView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        if (!this.isClickable()) {
+            return;
+        }
         if ((position) != lastPosition) {
             updateSelectedState(position, lastPosition);
             lastPosition = position;
@@ -302,13 +312,26 @@ public class ListTextView extends LinearLayout implements AdapterView.OnItemClic
         }
         if (onTextItemClickListener != null) {
             onTextItemClickListener.onItemClickListener(position, listTextAdapter.getItem(position).getItemName());
+            this.setClickable(false);
+            this.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ListTextView.this.setClickable(true);
+                }
+            }, 1000);
         }
     }
 
 
+    /**
+     * update item background color
+     *
+     * @param currentPosition current position to update
+     * @param lastPosition    last position to reset
+     */
     private void updateSelectedState(int currentPosition, int lastPosition) {
-        items.get(currentPosition).setIsSelected(true);
         items.get(lastPosition).setIsSelected(false);
+        items.get(currentPosition).setIsSelected(true);
     }
 
     private class ListTextAdapter extends BaseAdapter {
@@ -362,30 +385,12 @@ public class ListTextView extends LinearLayout implements AdapterView.OnItemClic
     }
 
     /**
-     * set the item selected background color with String
-     *
-     * @param color the color of String
-     */
-    public void setItemSelectedColor(String color) {
-        ITEM_SELECTED_COLOR = Color.parseColor(color);
-    }
-
-    /**
      * set the item unselected background color`s resource id
      *
      * @param resId the color id
      */
     public void setItemUnselectedColor(int resId) {
         ITEM_UNSELECTED_COLOR = resId;
-    }
-
-    /**
-     * set the item unselected background color with String
-     *
-     * @param color the color of String
-     */
-    public void setItemUnselectedColor(String color) {
-        ITEM_UNSELECTED_COLOR = Color.parseColor(color);
     }
 
     // selected style
